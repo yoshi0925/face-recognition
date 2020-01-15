@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Perception and Cognition Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="http://serenceslab.ucsd.edu/images/favicon.ico">
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://psyc241.ucsd.edu/Chaipat/TB_PCL_vWM_2AFC/js/vismemCC.js"></script>
+    <script src="./js/controller.js"></script>
+
+    <div id="save" class="top-div">
+        Saving data...
+    </div>
+    <div id="done" class="center-div">
+        Done!
+    </div>
+
+    <input type="submit" value="Submit" name="submitButton" id="submitButton" style="position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0; width: 50px; height: 100px;" onclick="endAndSend()">
+    <input type="submit" value="Submit" name="submitButton0" id="submitButton0" style="position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0; width: 50px; height: 100px; display: none;" onclick="endAndSend()">
+
+    <div id="instructions">
+        <h2> Reaction Time Test </h2>
+        <p>
+
+        <p>
+            <b> To proceed, please go fullscreen and your screen need to be bigger than 400 pixels </b>
+            <br> Press <b>F11</b> to go full screen on a Windows PC
+        </p>
+        <p style="font:5px"> Clicking on the button will indicate that you have read this consent document and agree to participate. </p>
+
+        <div id="startExperimentButton">
+            <a href="#" id="startExperiment">I agree</a>
+        </div>
+        <p></p>
+
+        <div id="consent" style="height:300px; border:1px solid #ccc;font:12px Arial, Helvetica; overflow:auto" align="justify">
+            <p align="center">
+                <b>
+                    UNIVERSITY OF CALIFORNIA, SAN DIEGO
+                    <br>CONSENT TO ACT AS A RESEARCH SUBJECT
+                </b>
+
+            <p>
+                Dr. John Serences is conducting a research study to learn more about how attention affects how you see things
+                (perception) and how you make simple decisions. There will be approximately 5,000 participants in the study
+                over the next 10 years.
+            </p>
+
+            <p>
+                <br><b>PROCEDURES.</b> If you agree to be in this study by clicking “Agree” and continuing to this task, the following
+                will happen to you: You will be presented with stimuli that consist of simple shapes presented on a computer
+                screen. You will respond with button presses and/or using your computer mouse.
+            <p>
+                <br> <b>RISKS.</b> You will be required only to continue to interact with your web browser and make responses for a short
+                duration. Thus, no potential risks or discomforts are anticipated except for the possibility that some tasks may
+                be slightly boring. However, there may be risks that are currently unforeseeable.
+            </p>
+
+            <p>
+                <br><b>REMUNERATION.</b> In consideration of your time and effort you will receive extra course credit for your
+                participation via the SONA system (0.5 credits per 30 minutes, rounded up to the nearest 30-minute increment).
+            </p>
+
+            <p>
+                <br><b>RIGHTS.</b> If you are injured as a direct result of participation in this research, the University of California will
+                provide any medical care you need to treat those injuries. The University will not provide any other form of
+                compensation to you if you are injured. You may call the Human Research Protections Program at 858-246-
+                4777 for more information about this, to inquire about your rights as a research subject, or to report research-
+                related problems.
+            </p>
+
+            <p>
+                <br><b>BENEFITS.</b> There will be no direct benefit to you from these procedures. However, the investigator may learn more about basic questions pertaining to attention, memory and vision. This knowledge may have benefits to society in
+                fields
+                ranging from improving education to visual design, but these benefits will be indirect.
+            </p>
+
+            <p>
+                <br><b>EXPLANATION.</b> Dr. John Serences or a member of his research team has explained this study to you and
+                answered your questions. If you have other questions or research-related problems, you may reach him at 858-
+                534-3686.
+            </p>
+            <p>
+                <br><b>VOLUNTARY NATURE OF PARTICIPATION.</b> Participation in this research is entirely voluntary. There is
+                no cost to you for participating. The alternative to participating is not participating. You may refuse to
+                participate or you may withdraw at any time without jeopardy to the medical care you will receive at this
+                institution, without loss of any access to the care to which you are entitled, or loss of the benefits to which you
+                are entitled. You may also be withdrawn from the study if the investigator feels it is in your best interest or for
+                other study-related purposes. If you wish to withdraw from the study tell a member of the study staff and the
+                testing session will terminate immediately. You will be compensated for the time you have spent.
+            </p>
+
+            <p>
+                <br><b>CONFIDENTIALITY.</b> Research records will be kept confidential to the extent provided by law. Research
+                records will only be accessible by Dr Serences and his research team, and by the UCSD Institutional Review
+                Board. You have received a copy of this consent document.
+            </p>
+
+            <p>
+                <br>By clicking “I agree”, you are indicating that you are at least 18 years old, have read this consent form and agree to participate in this research study. Please print a copy of this page for your records.
+            </p>
+            </p>
+        </div>
+    </div>
+
+
+    <div id='introduction' ; class='center'>
+        <p>
+            <br> On each trial, you'll see five shapes and need to identify the direction of the line inside the diamond-shaped target <b> as FAST as possible</b>.
+            <br> <br> On each trial, there will be only one diamond shape. Press the <b>"Z"</b> key if the line is horizontal, press the <b>"M"</b> key if the line is vertical.
+            <br> <br> <b>Color is Irrelevant. IGNORE “pop out” color distractors. You should only look for diamond shape.</b>
+            <br> <br> There will be green or red canvas appears during each trial, no actions required between canvas display.
+            <br> <br> You will be given 3 seconds for each trial.
+            <br> <br> Please keep your eyes on the dot in the middle.
+
+            <br> <br> <br> <br> <br> Please press space bar to continue.
+        </p>
+    </div>
+
+</body>
+</html>
