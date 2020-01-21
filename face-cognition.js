@@ -48,3 +48,44 @@ const OLD_19 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/mas
 const OLD_20 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old20.JPG";
 const OLD_21 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old21.JPG";
 const OLD_22 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old22.JPG";
+
+const gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
+    NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
+    OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
+
+
+var imgWrap = [];
+function preloadImg(arr) {
+    for (var i = 0; i < arr.length; i++) {
+        imgWrap[i] = new Image();
+        imgWrap[i].src = arr[i];
+    }
+}
+
+preloadImg(IMAGE_ARR);
+
+
+
+function showImage(src) {
+    var img = document.createElement("img");
+    img.src = src;
+    img.style = "position: absolute; top: 250px; left: 325px;";
+    // This next line will just add it to the <div id='pic'> tag
+    var pic_div = document.getElementById('pic');
+    pic_div.appendChild(img);
+
+}
+
+
+function cleanImage() {
+    var div = document.getElementById('pic');
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
+}
+
+function displayImage() {
+    for (i = 0; i < gallery.length; i++) {
+        showImage(i);
+    }
+}
