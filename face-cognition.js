@@ -1,7 +1,14 @@
-
+﻿
 
 //Global Variables
-
+const L_KEY = 122;
+const R_KEY = 109;
+const ONE_KEY = 49;
+const TWO_KEY = 50;
+const THREE_KEY = 51;
+const FOUR_KEY = 52;
+const FIVE_KEY = 53;
+const SIX_KEY = 54;
 
 //Images
 const NEW_1 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/new1.JPG";
@@ -65,7 +72,6 @@ function preloadImg(arr) {
 preloadImg(IMAGE_ARR);
 
 
-
 function showImage(src) {
     var img = document.createElement("img");
     img.src = src;
@@ -84,8 +90,57 @@ function cleanImage() {
     }
 }
 
+
+
+function getValueFromSurvey(str) {
+    var radio = document.getElementsByName(str);
+    for (i = 0; i < radio.length; i++) {
+        if (radio[i].checked) {
+            return (radio[i].value)
+        }
+    }
+}
+
+
 function displayImage() {
     for (i = 0; i < gallery.length; i++) {
         showImage(i);
     }
+}
+
+function tutorialStart() {
+    if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
+        $('#instructions').hide();
+        $('#introduction').show();
+        // Begin
+        $(document).on("keypress.trialWait", PressedKey1);
+        function PressedKey1(evt) {
+            evt.preventDefault();
+            if (evt.which == 32) {
+                oldOrNew();
+            }
+        }
+    }
+}
+
+function oldOrNew() {
+    $(document).off("keypress.trialWait");
+    $('#introduction').hide();
+    $('#old_new').show();
+    displayImage();//这个地方有问题，会展示array 实际上我只需要一个呀。。。
+    $(document).on("keypress.trialWait", PressedKey4);
+    function PressedKey4(evt) {
+        evt.preventDefault();
+        if (controller & (evt.which == L_KEY | evt.which == R_KEY)) {
+            rateConfidency();
+        }
+    }
+}
+
+function rateConfidency() {
+    $(document).off("keypress.trialWait");
+    $('#old_new').hide();
+    $('#confidence').show();
+    //怎么实现不换图片？
+
 }
