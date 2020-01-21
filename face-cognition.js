@@ -56,7 +56,7 @@ const OLD_20 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/mas
 const OLD_21 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old21.JPG";
 const OLD_22 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old22.JPG";
 
-const gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
+var gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
     NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
     OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
 
@@ -101,12 +101,21 @@ function getValueFromSurvey(str) {
     }
 }
 
+var inUseArray = [];
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
 
-function displayImage() {
-    for (i = 0; i < gallery.length; i++) {
-        showImage(i);
+        // swap elements array[i] and array[j]
+        // we use "destructuring assignment" syntax to achieve that
+        // you'll find more details about that syntax in later chapters
+        // same can be written as:
+        // let t = array[i]; array[i] = array[j]; array[j] = t
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+inUseArray = shuffle(gallery);
 
 function tutorialStart() {
     if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
