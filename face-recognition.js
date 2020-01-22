@@ -234,29 +234,30 @@ async function showSurvey() {
     // $('#progressReport').hide();
     $('#Survey').show();
 
+
+
+    function checkSurveyValue() {
+        var t1 = $("input:radio[name='Gender']").is(":checked");
+        var t2 = $("input:radio[name='Ethnicity']").is(":checked");
+        var t3 = $("input:radio[name='Race']").is(":checked");
+        var t4 = !(isNaN(document.getElementById('initials').value) | (document.getElementById('initials').value == ""));
+        var t5 = !(isNaN(document.getElementById('ageNumber').value) | (document.getElementById('ageNumber').value == ""));
+
+        v1 = getValueFromSurvey("Gender");
+        v2 = getValueFromSurvey("Ethnicity");
+        v3 = getValueFromSurvey("Race");
+        v4 = document.getElementById('initials').value;
+        v5 = document.getElementById('ageNumber').value;
+
+        if (t1 & t2 & t3 & t4 & t5) {
+            endAndSend();
+        }
+        else {
+            alert("Please fill all forms.");
+        }
+    }
 }
 
-
-function checkSurveyValue() {
-    var t1 = $("input:radio[name='Gender']").is(":checked");
-    var t2 = $("input:radio[name='Ethnicity']").is(":checked");
-    var t3 = $("input:radio[name='Race']").is(":checked");
-    var t4 = !(isNaN(document.getElementById('initials').value) | (document.getElementById('initials').value == ""));
-    var t5 = !(isNaN(document.getElementById('ageNumber').value) | (document.getElementById('ageNumber').value == ""));
-
-    v1 = getValueFromSurvey("Gender");
-    v2 = getValueFromSurvey("Ethnicity");
-    v3 = getValueFromSurvey("Race");
-    v4 = document.getElementById('initials').value;
-    v5 = document.getElementById('ageNumber').value;
-
-    if (t1 & t2 & t3 & t4 & t5) {
-        endAndSend();
-    }
-    else {
-        alert("Please fill all forms.");
-    }
-}
 
 
 function endAndSend() {
