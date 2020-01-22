@@ -68,7 +68,7 @@ const OLD_22 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/mas
 //     NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
 //     OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
 //for testing use:
-var gallery = [NEW_1, NEW_2]
+var gallery = [NEW_1, NEW_2, NEW_10, NEW_11]
 
 var imgWrap = [];
 function preloadImg(arr) {
@@ -233,6 +233,7 @@ async function showSurvey() {
     $('#confidence').hide();
     // $('#progressReport').hide();
     $('#Survey').show();
+}
 
 
 
@@ -240,7 +241,7 @@ async function showSurvey() {
         var t1 = $("input:radio[name='Gender']").is(":checked");
         var t2 = $("input:radio[name='Ethnicity']").is(":checked");
         var t3 = $("input:radio[name='Race']").is(":checked");
-        var t4 = !(isNaN(document.getElementById('initials').value) | (document.getElementById('initials').value == ""));
+        var t4 = !((document.getElementById('initials').value) | (document.getElementById('ageNumber').value == ""));
         var t5 = !(isNaN(document.getElementById('ageNumber').value) | (document.getElementById('ageNumber').value == ""));
 
         v1 = getValueFromSurvey("Gender");
@@ -256,7 +257,6 @@ async function showSurvey() {
             alert("Please fill all forms.");
         }
     }
-}
 
 
 
@@ -307,4 +307,14 @@ function SendToServer() {
 
     //test logging
     console.log(d);
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2]);
 }
