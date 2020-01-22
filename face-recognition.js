@@ -289,7 +289,7 @@ function endAndSend() {
 function SendToServer() {
     var curr_date = new Date();
     var curID = getParameterByName("id");
-    //resultRateTime.map((n, i) => n - resultChoiceTime[i])
+    resultRateTime = resultRateTime.map((n, i) => n - resultChoiceTime[i])
     dataToServer = {
         'date': curr_date,
         'choice': JSON.stringify(oldNewResult),
@@ -308,7 +308,7 @@ function SendToServer() {
     var d = {
         'id': getParameterByName("id"),
         'experimenter': 'Kirsten',
-        'experimentName': 'face-recognition',
+        'experimentName': 'Face-Recognition',
         'curData': JSON.stringify(dataToServer)
     };
     // $.post("http://serenceslab.ucsd.edu/experiments/RT_Exp/save.php",
