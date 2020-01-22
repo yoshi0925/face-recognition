@@ -10,7 +10,7 @@
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://psyc241.ucsd.edu/Chaipat/TB_PCL_vWM_2AFC/js/vismemCC.js"></script>
-    <script src="./js/face-recognition.js"></script>
+    <script src="face-recognition.js"></script>
 
     <div id="save" class="top-div">
         Saving data...
@@ -18,7 +18,8 @@
     <div id="done" class="center-div">
         Done!
     </div>
-
+    <div id='pic'; class="pic">
+    </div>
     <input type="submit" value="Submit" name="submitButton" id="submitButton" style="position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0; width: 50px; height: 100px;" onclick="endAndSend()">
     <input type="submit" value="Submit" name="submitButton0" id="submitButton0" style="position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0; width: 50px; height: 100px; display: none;" onclick="endAndSend()">
 
@@ -276,8 +277,8 @@
             </section>
 
             <section>
-                <form id="anonymized initials">
-                    <strong>Enter a number for your age: <input type="text" id="initials" name="initials"></strong><br> <br>
+                <form id="anonymous initials">
+                    <strong>Enter a the initials: <input type="text" id="initials" name="initials"></strong><br> <br>
                 </form>
             </section>
 

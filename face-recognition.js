@@ -1,4 +1,12 @@
-﻿
+﻿// Global variables
+// vars not defined from imported js
+var isTrain = 0;
+var isTest = 0;
+var moveLast = 0;
+function endTime(){
+return 160;
+}
+var currProbe = 1;
 
 //Global Variables
 const L_KEY = 122;
@@ -56,10 +64,11 @@ const OLD_20 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/mas
 const OLD_21 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old21.JPG";
 const OLD_22 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old22.JPG";
 
-var gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
-    NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
-    OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
-
+// var gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
+//     NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
+//     OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
+//for testing use:
+var gallery = [NEW_1, NEW_2]
 
 var imgWrap = [];
 function preloadImg(arr) {
@@ -69,7 +78,7 @@ function preloadImg(arr) {
     }
 }
 
-preloadImg(IMAGE_ARR);
+preloadImg(gallery);
 
 
 function showImage(src) {
@@ -102,8 +111,8 @@ function getValueFromSurvey(str) {
 }
 
 var inUseArray = [];
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+function shuffle(array, shuffledArr) {
+    for (let i = array.length - 1; i >= 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
 
         // swap elements array[i] and array[j]
@@ -111,11 +120,11 @@ function shuffle(array) {
         // you'll find more details about that syntax in later chapters
         // same can be written as:
         // let t = array[i]; array[i] = array[j]; array[j] = t
-        [array[i], array[j]] = [array[j], array[i]];
+        [shuffledArr[i], shuffledArr[j]] = [array[j], array[i]];
     }
 }
 //shuffled image array
-inUseArray = shuffle(gallery);
+shuffle(gallery, inUseArray);
 
 function tutorialStart() {
     if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
@@ -126,7 +135,7 @@ function tutorialStart() {
         function PressedKey(evt) {
             evt.preventDefault();
             if (evt.which == 32) {
-                startTrialFace;
+                startTrialFace();
             }
         }
     }
@@ -155,17 +164,17 @@ function transformRating(value) {
 }
 
 
-var index;
-var imageIndex;
+var imageIndex = 0;
 var oldNewResult = []; //data to be saved
 var rateResult = []; // data to be saved 
-
+var controller = false;
 
 async function startTrialFace() {
     $(document).off("keypress.trialWait");
     $('#introduction').hide();
     $('#pic').show();
     $('#old_new').show();
+    $('#confidence').hide();
 
     showImage( inUseArray[imageIndex] );
 
@@ -176,7 +185,7 @@ async function startTrialFace() {
     function pressKey0(evt) {
         evt.preventDefault();
 
-        if (controller & (evt.which == L_KEY | evt.which == R_KEY)) {
+        if ((evt.which == L_KEY | evt.which == R_KEY)) {
             saveData(evt);
             $('#old_new').hide();
             $('#confidence').show();
@@ -186,14 +195,14 @@ async function startTrialFace() {
             function pressKey1(evt) {
                 evt.preventDefault();
 
-                if (controller & (evt.which == ONE_KEY | evt.which == TWO_KEY | evt.which == THREE_KEY | evt.which == FOUR_KEY | evt.which == FIVE_KEY | evt.which == SIX_KEY)) {
+                if ((evt.which == ONE_KEY | evt.which == TWO_KEY | evt.which == THREE_KEY | evt.which == FOUR_KEY | evt.which == FIVE_KEY | evt.which == SIX_KEY)) {
                     saveData(evt);
+                    imageIndex++;
 
-                    if (imageIndex != inUseArray.length - 1) {
-                        imageIndex++;
-                        index++;
+                    if (imageIndex != inUseArray.length) {
                         startTrialFace();
-                    } else {
+                    }
+                    else{
                         showSurvey();
                     }
                 }
@@ -216,7 +225,7 @@ async function startTrialFace() {
 async function showSurvey() {
     $(document).off("keypress.trialWait");
     cleanImage();
-    $('#hor_ver').hide();
+    $('#confidence').hide();
     // $('#progressReport').hide();
     $('#Survey').show();
 
