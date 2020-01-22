@@ -111,20 +111,23 @@ function getValueFromSurvey(str) {
 }
 
 var inUseArray = [];
-function shuffle(array, shuffledArr) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
 
-        // swap elements array[i] and array[j]
-        // we use "destructuring assignment" syntax to achieve that
-        // you'll find more details about that syntax in later chapters
-        // same can be written as:
-        // let t = array[i]; array[i] = array[j]; array[j] = t
-        [shuffledArr[i], shuffledArr[j]] = [array[j], array[i]];
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(array) {
+    var j, temp, i;
+    for (i = array.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
+    return array;
 }
-//shuffled image array
-shuffle(gallery, inUseArray);
+inUseArray = shuffle(gallery);
+
 
 function tutorialStart() {
     if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
