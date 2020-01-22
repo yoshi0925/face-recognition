@@ -1,10 +1,10 @@
 .trialDiv {
     /* border: 2px solid gray;*/
-    border: 0px;
     padding: auto;
-    width: auto;
+    border: 2px solid black;
+    width: 80%;
     position: relative;
-    top: 50px;
+    top: 100px;
     left: 50%;
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
