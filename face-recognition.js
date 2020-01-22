@@ -114,7 +114,7 @@ function shuffle(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
-
+//shuffled image array
 inUseArray = shuffle(gallery);
 
 function tutorialStart() {
@@ -122,34 +122,174 @@ function tutorialStart() {
         $('#instructions').hide();
         $('#introduction').show();
         // Begin
-        $(document).on("keypress.trialWait", PressedKey1);
-        function PressedKey1(evt) {
+        $(document).on("keypress.trialWait", PressedKey);
+        function PressedKey(evt) {
             evt.preventDefault();
             if (evt.which == 32) {
-                oldOrNew();
+                startTrialFace;
             }
         }
     }
 }
 
-function oldOrNew() {
-    $(document).off("keypress.trialWait");
-    $('#introduction').hide();
-    $('#old_new').show();
-    displayImage();//这个地方有问题，会展示array 实际上我只需要一个呀。。。
-    $(document).on("keypress.trialWait", PressedKey4);
-    function PressedKey4(evt) {
-        evt.preventDefault();
-        if (controller & (evt.which == L_KEY | evt.which == R_KEY)) {
-            rateConfidency();
-        }
+
+function transformRating(value) {
+    if (value == ONE_KEY) {
+        return 1;
+    }
+    if (value == TWO_KEY) {
+        return 2;
+    }
+    if (value == THREE_KEY) {
+        return 3;
+    }
+    if (value == FOUR_KEY) {
+        return 4;
+    }
+    if (value == FIVE_KEY) {
+        return 5;
+    }
+    if (value == SIX_KEY) {
+        return 6;
     }
 }
 
-function rateConfidency() {
-    $(document).off("keypress.trialWait");
-    $('#old_new').hide();
-    $('#confidence').show();
-    //怎么实现不换图片？
 
+var index;
+var imageIndex;
+var oldNewResult = []; //data to be saved
+var rateResult = []; // data to be saved 
+
+
+async function startTrialFace() {
+    $(document).off("keypress.trialWait");
+    $('#introduction').hide();
+    $('#pic').show();
+    $('#old_new').show();
+
+    showImage( inUseArray[imageIndex] );
+
+    document.getElementById('trialNumber').innerHTML = trialNumber++;
+
+    $(document).on("keypress.trialWait", pressKey0);
+
+    function pressKey0(evt) {
+        evt.preventDefault();
+
+        if (controller & (evt.which == L_KEY | evt.which == R_KEY)) {
+            saveData(evt);
+            $('#old_new').hide();
+            $('#confidence').show();
+
+            $(document).on("keypress.trialWait", pressKey1);
+
+            function pressKey1(evt) {
+                evt.preventDefault();
+
+                if (controller & (evt.which == ONE_KEY | evt.which == TWO_KEY | evt.which == THREE_KEY | evt.which == FOUR_KEY | evt.which == FIVE_KEY | evt.which == SIX_KEY)) {
+                    saveData(evt);
+
+                    if (imageIndex != inUseArray.length - 1) {
+                        imageIndex++;
+                        index++;
+                        startTrialFace();
+                    } else {
+                        showSurvey();
+                    }
+                }
+            }
+        }
+    }
+
+    function saveData(evt, surprise) {
+        old_or_new = evt.which == R_KEY ? "vertical" : "horizontal";
+        rate = transformRating(evt.which);//这是对的吗？
+        //clickedTime = Date.now();
+        //time = clickedTime - createdTime;
+        oldNewResult.push(old_or_new);
+        //resultTime.push(time);
+        rateResult.push(rate);
+    }
+
+}
+
+async function showSurvey() {
+    $(document).off("keypress.trialWait");
+    cleanImage();
+    $('#hor_ver').hide();
+    // $('#progressReport').hide();
+    $('#Survey').show();
+
+}
+
+
+function checkSurveyValue() {
+    var t1 = $("input:radio[name='Gender']").is(":checked");
+    var t2 = $("input:radio[name='Ethnicity']").is(":checked");
+    var t3 = $("input:radio[name='Race']").is(":checked");
+    var t4 = !(isNaN(document.getElementById('initials').value) | (document.getElementById('initials').value == ""));
+    var t5 = !(isNaN(document.getElementById('ageNumber').value) | (document.getElementById('ageNumber').value == ""));
+
+    v1 = getValueFromSurvey("Gender");
+    v2 = getValueFromSurvey("Ethnicity");
+    v3 = getValueFromSurvey("Race");
+    v4 = document.getElementById('initials').value;
+    v5 = document.getElementById('ageNumber').value;
+
+    if (t1 & t2 & t3 & t4 & t5) {
+        endAndSend();
+    }
+    else {
+        alert("Please fill all forms.");
+    }
+}
+
+
+function endAndSend() {
+    cleanImage();
+    $('#submitButton').hide();
+    $('#Survey').hide();
+    $('#done').show();
+    SendToServer();
+}
+
+
+/* Send the data to the server as JSON: */
+function SendToServer() {
+    var curr_date = new Date();
+    var curID = getParameterByName("id");
+    dataToServer = {
+        'date': curr_date,
+        'old_vs_new': JSON.stringify(oldNewResult),
+        'confidence_rate': JSON.stringify(rateResult),
+        //'display_info': JSON.stringify(displayInfo),
+        //'canvas_info': JSON.stringify(canvasInfo.unshift("no_canvas_at_beginning")),
+        'gender': v1,
+        'ethnicity': v2,
+        'race': v3,
+        'initials': v4,
+        'age': v5,
+        'curID': curID,
+    };
+    var d = {
+        'id': getParameterByName("id"),
+        'experimenter': 'Kirsten',
+        'experimentName': 'face-recognition',
+        'curData': JSON.stringify(dataToServer)
+    };
+    // $.post("http://serenceslab.ucsd.edu/experiments/RT_Exp/save.php",
+    //   d,
+    //   function(data) {
+    // 	/* Get this from SONA by looking for the Completion URL (client-side) on SONA after creating an online SONA study: */
+    // 	window.location = "https://ucsd.sona-systems.com/webstudy_credit.aspx?experiment_id=1661&credit_token=ab4560d23b684ec89438a7ec6fcee9b5&survey_code=" + getParameterByName("id");
+    // 	console.log("Saved!");
+    //   }
+    // ).fail(function(data) {
+    // 	/* Get this from SONA by looking for the Completion URL (client-side) on SONA after creating an online SONA study: */
+    // 	window.location = "https://ucsd.sona-systems.com/webstudy_credit.aspx?experiment_id=1661&credit_token=ab4560d23b684ec89438a7ec6fcee9b5&survey_code=" + getParameterByName("id");
+    // 	console.log("not saved!");
+    // });
+
+    //test logging
+    console.log(d);
 }
