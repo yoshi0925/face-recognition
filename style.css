@@ -1,9 +1,9 @@
 .trialDiv {
-    /* border: 2px solid gray;*/
-    padding: auto;
+    border: 2px solid black;
+    padding: 5px;
     width: 80%;
     position: relative;
-    top: 80px;
+    top: 45px;
     left: 50%;
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
@@ -20,11 +20,12 @@
 }
 
 .pic {
-    float: left; 
-    clear: both; 
     margin: auto;
-    width: 100%;
+    /*float: left;*/
+    clear: both;
+    width: 80%;
     padding: 10px;
+    overflow: auto;
 }
 
 body {

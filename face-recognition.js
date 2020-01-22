@@ -86,7 +86,7 @@ var clickedTime = 0;
 function showImage(src) {
     var img = document.createElement("img");
     img.src = src;
-    img.style = "position: absolute; top: 150px; left: 300px; height: 450px; width: 450px;";
+    img.style = "position: absolute; top: 150px; left: 300px; height: 420px; width: 420px;";
     // This next line will just add it to the <div id='pic'> tag
     var pic_div = document.getElementById('pic');
     pic_div.appendChild(img);
