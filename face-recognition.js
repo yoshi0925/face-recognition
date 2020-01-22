@@ -84,7 +84,7 @@ preloadImg(gallery);
 function showImage(src) {
     var img = document.createElement("img");
     img.src = src;
-    img.style = "position: absolute; top: 250px; left: 325px;";
+    img.style = "position: absolute; top: 100px; left: 375px;";
     // This next line will just add it to the <div id='pic'> tag
     var pic_div = document.getElementById('pic');
     pic_div.appendChild(img);
@@ -112,7 +112,7 @@ function getValueFromSurvey(str) {
 
 var inUseArray = [];
 function shuffle(array, shuffledArr) {
-    for (let i = array.length - 1; i >= 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
 
         // swap elements array[i] and array[j]
@@ -177,6 +177,8 @@ async function startTrialFace() {
     $('#confidence').hide();
 
     showImage( inUseArray[imageIndex] );
+    console.log(imageIndex);
+    console.log(inUseArray[imageIndex]);
 
     document.getElementById('trialNumber').innerHTML = trialNumber++;
 
