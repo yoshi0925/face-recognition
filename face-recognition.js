@@ -80,6 +80,8 @@ function preloadImg(arr) {
 
 preloadImg(gallery);
 
+var createdTime = 0;
+var clickedTime = 0;
 
 function showImage(src) {
     var img = document.createElement("img");
@@ -88,7 +90,7 @@ function showImage(src) {
     // This next line will just add it to the <div id='pic'> tag
     var pic_div = document.getElementById('pic');
     pic_div.appendChild(img);
-
+    createdTime = Date.now();
 }
 
 
@@ -166,10 +168,16 @@ function transformRating(value) {
     }
 }
 
+function subtraction(array1, array2) {
+
+}
+
 
 var imageIndex = 0;
 var oldNewResult = []; //data to be saved
 var rateResult = []; // data to be saved 
+var resultChoiceTime = []; //data to be saved -- time user on making choice
+var resultRateTime = [] //data to be saved -- time user spends on rating confidency level
 var controller = false;
 
 async function startTrialFace() {
@@ -191,7 +199,7 @@ async function startTrialFace() {
         evt.preventDefault();
 
         if ((evt.which == L_KEY | evt.which == R_KEY)) {
-            saveData(evt);
+            saveDataChoice(evt);
             $('#old_new').hide();
             $('#confidence').show();
 
@@ -201,7 +209,7 @@ async function startTrialFace() {
                 evt.preventDefault();
 
                 if ((evt.which == ONE_KEY | evt.which == TWO_KEY | evt.which == THREE_KEY | evt.which == FOUR_KEY | evt.which == FIVE_KEY | evt.which == SIX_KEY)) {
-                    saveData(evt);
+                    saveDataRate(evt);
                     imageIndex++;
 
                     if (imageIndex != inUseArray.length) {
@@ -215,15 +223,23 @@ async function startTrialFace() {
         }
     }
 
-    function saveData(evt, surprise) {
-        old_or_new = evt.which == R_KEY ? "vertical" : "horizontal";
-        rate = transformRating(evt.which);//这是对的吗？
-        //clickedTime = Date.now();
-        //time = clickedTime - createdTime;
+    
+    function saveDataChoice(evt) {
+        old_or_new = evt.which == R_KEY ? "New" : "Old";
+        clickedTime = Date.now();
+        time = clickedTime - createdTime;
+        resultChoiceTime.push(time);
         oldNewResult.push(old_or_new);
-        //resultTime.push(time);
+    }
+
+    function saveDataRate(evt) {
+        rate = transformRating(evt.which);
+        clickedTime = Date.now();
+        time = clickedTime - createdTime;
+        resultRateTime.push(time);
         rateResult.push(rate);
     }
+
 
 }
 
@@ -273,10 +289,13 @@ function endAndSend() {
 function SendToServer() {
     var curr_date = new Date();
     var curID = getParameterByName("id");
+    //resultRateTime.map((n, i) => n - resultChoiceTime[i])
     dataToServer = {
         'date': curr_date,
-        'old_vs_new': JSON.stringify(oldNewResult),
+        'choice': JSON.stringify(oldNewResult),
         'confidence_rate': JSON.stringify(rateResult),
+        'choice_time': JSON.stringify(resultChoiceTime),
+        'confidence_rate_time': JSON.stringify(resultRateTime),
         //'display_info': JSON.stringify(displayInfo),
         //'canvas_info': JSON.stringify(canvasInfo.unshift("no_canvas_at_beginning")),
         'gender': v1,
