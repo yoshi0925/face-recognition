@@ -21,7 +21,7 @@
 
 .pic {
     margin: auto;
-    /*float: left;*/
+    float: left;
     clear: both;
     width: 80%;
     padding: 10px;

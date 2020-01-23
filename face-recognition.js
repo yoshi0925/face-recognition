@@ -192,8 +192,8 @@ async function startTrialFace() {
     $('#confidence').hide();
 
     showImage( inUseArray[imageIndex] );
-    console.log(imageIndex);
-    console.log(inUseArray[imageIndex]);
+    //console.log(imageIndex);
+    //console.log(inUseArray[imageIndex]);
 
     document.getElementById('trialNumber').innerHTML = trialNumber++;
 
@@ -234,7 +234,7 @@ async function startTrialFace() {
         old_or_new = evt.which == R_KEY ? "New" : "Old";
         imageTime = Date.now();
         let time = imageTime - createdTime;
-        console.log("choice time: " + imageTime + " - created time: "+ createdTime + " = " + time)
+        //console.log("choice time: " + imageTime + " - created time: "+ createdTime + " = " + time)
         resultChoiceTime.push(time);
         oldNewResult.push(old_or_new);
     }
@@ -243,7 +243,7 @@ async function startTrialFace() {
         rate = transformRating(evt.which);
         confidenceTime = Date.now();
         let time = confidenceTime - imageTime;
-        console.log("confidence time: " + confidenceTime + " - chose time: "+ imageTime + " = " + time)
+        //console.log("confidence time: " + confidenceTime + " - chose time: "+ imageTime + " = " + time)
 
         resultRateTime.push(time);
         rateResult.push(rate);
@@ -322,8 +322,9 @@ function SendToServer() {
         'experimentName': 'Face-Recognition',
         'curData': JSON.stringify(dataToServer)
     };
-    // $.post("http://serenceslab.ucsd.edu/experiments/RT_Exp/save.php",
-    //   d,
+    $.post("http://serenceslab.ucsd.edu/experiments/RT_Exp/save.php",
+        d);
+
     //   function(data) {
     // 	/* Get this from SONA by looking for the Completion URL (client-side) on SONA after creating an online SONA study: */
     // 	window.location = "https://ucsd.sona-systems.com/webstudy_credit.aspx?experiment_id=1661&credit_token=ab4560d23b684ec89438a7ec6fcee9b5&survey_code=" + getParameterByName("id");
@@ -336,7 +337,7 @@ function SendToServer() {
     // });
 
     //test logging
-    console.log(d);
+    //console.log(d);
 }
 
 function getParameterByName(name, url) {
