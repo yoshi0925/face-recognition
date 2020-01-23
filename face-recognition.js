@@ -64,11 +64,11 @@ const OLD_20 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/mas
 const OLD_21 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old21.JPG";
 const OLD_22 = "https://raw.githubusercontent.com/yoshi0925/face-recognition/master/Images/old22.JPG";
 
- //var gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
- //    NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
-  //   OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
+ var gallery = [NEW_1, NEW_2, NEW_3, NEW_4, NEW_5, NEW_6, NEW_7, NEW_8, NEW_9, NEW_10, NEW_11, NEW_12, NEW_13, NEW_14, NEW_15, NEW_16, NEW_17,
+     NEW_18, NEW_19, NEW_20, NEW_21, NEW_22, OLD_1, OLD_2, OLD_3, OLD_4, OLD_5, OLD_6, OLD_7, OLD_8, OLD_9, OLD_10, OLD_11, OLD_12, OLD_13, OLD_14,
+     OLD_15, OLD_16, OLD_17, OLD_18, OLD_19, OLD_20, OLD_21, OLD_22];
 //for testing use:
-var gallery = [NEW_1, NEW_2, NEW_10, NEW_11]
+//var gallery = [NEW_1, NEW_2, NEW_10, NEW_11]
 
 var imgWrap = [];
 function preloadImg(arr) {
@@ -89,7 +89,7 @@ function showImage(src) {
     controller = false;
     var img = document.createElement("img");
     img.src = src;
-    img.style = "position: absolute; top: 150px; left: 470px; height: 450px; width: 450px;";
+    img.style = "position: absolute; top: 120px; left: 470px; max-width:80%; max-height: 80%;";
     // This next line will just add it to the <div id='pic'> tag
     var pic_div = document.getElementById('pic');
     pic_div.appendChild(img);
@@ -323,18 +323,18 @@ function SendToServer() {
         'curData': JSON.stringify(dataToServer)
     };
     $.post("http://serenceslab.ucsd.edu/experiments/RT_Exp/save.php",
-        d);
+        d,
 
-    //   function(data) {
+       function(data) {
+    // 	/* Get this from SONA by looking for the Completion URL (client-side) on SONA after creating an online SONA study: */
+     //	window.location = "https://ucsd.sona-systems.com/webstudy_credit.aspx?experiment_id=1661&credit_token=ab4560d23b684ec89438a7ec6fcee9b5&survey_code=" + getParameterByName("id");
+     	console.log("Saved!");
+       }
+     ).fail(function(data) {
     // 	/* Get this from SONA by looking for the Completion URL (client-side) on SONA after creating an online SONA study: */
     // 	window.location = "https://ucsd.sona-systems.com/webstudy_credit.aspx?experiment_id=1661&credit_token=ab4560d23b684ec89438a7ec6fcee9b5&survey_code=" + getParameterByName("id");
-    // 	console.log("Saved!");
-    //   }
-    // ).fail(function(data) {
-    // 	/* Get this from SONA by looking for the Completion URL (client-side) on SONA after creating an online SONA study: */
-    // 	window.location = "https://ucsd.sona-systems.com/webstudy_credit.aspx?experiment_id=1661&credit_token=ab4560d23b684ec89438a7ec6fcee9b5&survey_code=" + getParameterByName("id");
-    // 	console.log("not saved!");
-    // });
+     //	console.log("not saved!");
+     });
 
     //test logging
     //console.log(d);
