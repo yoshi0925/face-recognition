@@ -136,7 +136,7 @@ inUseArray = shuffle(gallery);
 
 
 function tutorialStart() {
-    if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
+    //if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
         $('#instructions').hide();
         $('#introduction').show();
         // Begin
@@ -147,7 +147,7 @@ function tutorialStart() {
                 startTrialFace();
             }
         }
-    }
+    //}
 }
 
 
@@ -259,18 +259,23 @@ async function showSurvey() {
 }
 
 
+var v1 = "";
+var v2 = "";
+var v3 = "";
+var v4 = "";
+var v5 = "";
 
     function checkSurveyValue() {
         v1 = getValueFromSurvey("Gender");
         v2 = getValueFromSurvey("Ethnicity");
         v3 = getValueFromSurvey("Race");
-        v4 = document.getElementById('initials').value;
+        v4 = document.getElementById('initials')[0].value;
         v5 = document.getElementById('ageNumber').value;
 
         let t1 = $("input:radio[name='Gender']").is(":checked");
         let t2 = $("input:radio[name='Ethnicity']").is(":checked");
         let t3 = $("input:radio[name='Race']").is(":checked");
-        let t4 = !(document.getElementById("initials").value == "" || v4 == "");
+        let t4 = !(v4 == "");
         let t5 = !(isNaN(v5) || v5 == "");
 
         if (t1 && t2 && t3 && t4 && t5) {
