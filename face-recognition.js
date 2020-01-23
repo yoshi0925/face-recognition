@@ -81,9 +81,12 @@ function preloadImg(arr) {
 preloadImg(gallery);
 
 var createdTime = 0;
-var clickedTime = 0;
+var imageTime = 0;
+var confidenceTime = 0;
 
+var controller = false;
 function showImage(src) {
+    controller = false;
     var img = document.createElement("img");
     img.src = src;
     img.style = "position: absolute; top: 150px; left: 470px; height: 450px; width: 450px;";
@@ -91,6 +94,7 @@ function showImage(src) {
     var pic_div = document.getElementById('pic');
     pic_div.appendChild(img);
     createdTime = Date.now();
+    controller = true;
 }
 
 
@@ -198,7 +202,8 @@ async function startTrialFace() {
     function pressKey0(evt) {
         evt.preventDefault();
 
-        if ((evt.which == L_KEY | evt.which == R_KEY)) {
+        if (controller && (evt.which == L_KEY | evt.which == R_KEY)) {
+            $(document).off("keypress.trialWait");
             saveDataChoice(evt);
             $('#old_new').hide();
             $('#confidence').show();
@@ -208,7 +213,8 @@ async function startTrialFace() {
             function pressKey1(evt) {
                 evt.preventDefault();
 
-                if ((evt.which == ONE_KEY | evt.which == TWO_KEY | evt.which == THREE_KEY | evt.which == FOUR_KEY | evt.which == FIVE_KEY | evt.which == SIX_KEY)) {
+                if (controller && (evt.which == ONE_KEY | evt.which == TWO_KEY | evt.which == THREE_KEY | evt.which == FOUR_KEY | evt.which == FIVE_KEY | evt.which == SIX_KEY)) {
+                    $(document).off("keypress.trialWait");
                     saveDataRate(evt);
                     imageIndex++;
 
@@ -226,21 +232,22 @@ async function startTrialFace() {
     
     function saveDataChoice(evt) {
         old_or_new = evt.which == R_KEY ? "New" : "Old";
-        clickedTime = Date.now();
-        time = clickedTime - createdTime;
+        imageTime = Date.now();
+        let time = imageTime - createdTime;
+        console.log("choice time: " + imageTime + " - created time: "+ createdTime + " = " + time)
         resultChoiceTime.push(time);
         oldNewResult.push(old_or_new);
     }
 
     function saveDataRate(evt) {
         rate = transformRating(evt.which);
-        clickedTime = Date.now();
-        time = clickedTime - createdTime;
+        confidenceTime = Date.now();
+        let time = confidenceTime - imageTime;
+        console.log("confidence time: " + confidenceTime + " - chose time: "+ imageTime + " = " + time)
+
         resultRateTime.push(time);
         rateResult.push(rate);
     }
-
-
 }
 
 async function showSurvey() {
@@ -254,19 +261,19 @@ async function showSurvey() {
 
 
     function checkSurveyValue() {
-        var t1 = $("input:radio[name='Gender']").is(":checked");
-        var t2 = $("input:radio[name='Ethnicity']").is(":checked");
-        var t3 = $("input:radio[name='Race']").is(":checked");
-        var t4 = !((document.getElementById('initials').value) | (document.getElementById('ageNumber').value == ""));
-        var t5 = !(isNaN(document.getElementById('ageNumber').value) | (document.getElementById('ageNumber').value == ""));
-
         v1 = getValueFromSurvey("Gender");
         v2 = getValueFromSurvey("Ethnicity");
         v3 = getValueFromSurvey("Race");
         v4 = document.getElementById('initials').value;
         v5 = document.getElementById('ageNumber').value;
 
-        if (t1 & t2 & t3 & t4 & t5) {
+        let t1 = $("input:radio[name='Gender']").is(":checked");
+        let t2 = $("input:radio[name='Ethnicity']").is(":checked");
+        let t3 = $("input:radio[name='Race']").is(":checked");
+        let t4 = !(document.getElementById("initials").value == "" || v4 == "");
+        let t5 = !(isNaN(v5) || v5 == "");
+
+        if (t1 && t2 && t3 && t4 && t5) {
             endAndSend();
         }
         else {
@@ -289,7 +296,6 @@ function endAndSend() {
 function SendToServer() {
     var curr_date = new Date();
     var curID = getParameterByName("id");
-    resultRateTime = resultRateTime.map((n, i) => n - resultChoiceTime[i])
     dataToServer = {
         'date': curr_date,
         'choice': JSON.stringify(oldNewResult),
