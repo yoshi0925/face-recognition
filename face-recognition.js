@@ -136,7 +136,7 @@ inUseArray = shuffle(gallery);
 
 
 function tutorialStart() {
-    //if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
+    if ($(window).width() >= 600 & screen.width * .8 < $(window).width()) {
         $('#instructions').hide();
         $('#introduction').show();
         // Begin
@@ -147,7 +147,7 @@ function tutorialStart() {
                 startTrialFace();
             }
         }
-    //}
+    }
 }
 
 
@@ -297,12 +297,19 @@ function endAndSend() {
 }
 
 
+imageOutputArray = [];
+var tr = "";
+for (var index = 0; index < inUseArray.length; index++) {
+    let tr = inUseArray[index].match(/[old]*[new]*[0-9]+.JPG/);
+    imageOutputArray.push(tr);
+}
 /* Send the data to the server as JSON: */
 function SendToServer() {
     var curr_date = new Date();
     var curID = getParameterByName("id");
     dataToServer = {
         'date': curr_date,
+        'image': JSON.stringify(imageOutputArray),
         'choice': JSON.stringify(oldNewResult),
         'confidence_rate': JSON.stringify(rateResult),
         'choice_time': JSON.stringify(resultChoiceTime),
@@ -337,7 +344,7 @@ function SendToServer() {
      });
 
     //test logging
-    //console.log(d);
+    console.log(d);
 }
 
 function getParameterByName(name, url) {
